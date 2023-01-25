@@ -9,7 +9,7 @@
         "TTL": 60,
         "ResourceRecords": [
           {
-            "Value": "${INGRESS_RECORD}"
+            "Value": "*.${INGRESS_RECORD}"
           }
         ]
       }
