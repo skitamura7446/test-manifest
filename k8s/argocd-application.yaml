@@ -15,10 +15,10 @@ spec:
     path: k8s/overlays/prod
     repoURL: https://github.com/skitamura7446/rosa-sample-blog.git 
     targetRevision: master
-  syncPolicy:
-    automated:
-      prune: false
-      selfHeal: false
+  syncPolicy: {}
+#    automated:
+#      prune: false
+#      selfHeal: false
 #    syncOptions:
 #      - ApplyOutOfSyncOnly=true 
 #      - CreateNamespace=true
