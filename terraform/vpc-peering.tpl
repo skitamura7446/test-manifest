@@ -1,3 +1,7 @@
+provider "aws" {
+  region = "$ROSA_REGION"
+}
+
 resource "aws_vpc_peering_connection" "rosa-db-connection" {
   peer_vpc_id = "$DB_VPC_ID"
   vpc_id      = "$ROSA_VPC_ID"
