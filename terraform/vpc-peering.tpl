@@ -1,3 +1,12 @@
+terraform {
+  backend "s3" {
+    bucket = "sandbox1580-terraform-state"
+    region = "us-east-1"
+    key = "terraform.tfstate"
+    encrypt = true
+  }
+}
+
 provider "aws" {
   alias  = "rosa"
   region = "$ROSA_REGION"
