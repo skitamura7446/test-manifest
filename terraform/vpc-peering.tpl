@@ -32,17 +32,17 @@ resource "aws_vpc_peering_connection_accepter" "peer" {
 }
 
 data "aws_route_table" "rosa_route_table" {
-  provider = "rosa"
+  provider = aws.rosa
   vpc_id   = "$ROSA_VPC_ID"
 }
 
 data "aws_route_table" "db_route_table" {
-  provider = "db"
+  provider = aws.db
   vpc_id   = "$DB_VPC_ID"
 }
 
 resource "aws_route" "rosa_route" {
-  provider                  = "rosa"
+  provider                  = aws.rosa
   for_each                  = data.aws_route_table.rosa_route_table
   route_table_id            = each.value.id
   cidr_block                = "$DB_VPC_CIDR"
@@ -50,7 +50,7 @@ resource "aws_route" "rosa_route" {
 }
 
 resource "aws_route" "db_route" {
-  provider                  = "db"
+  provider                  = aws.db
   for_each                  = data.aws_route_table.db_route_table
   route_table_id            = each.value.id
   cidr_block                = "$ROSA_VPC_CIDR"
