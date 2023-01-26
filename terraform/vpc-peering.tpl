@@ -1,5 +1,4 @@
 provider "aws" {
-  region = "$ROSA_REGION"
 }
 
 resource "aws_vpc_peering_connection" "rosa-db-connection" {
