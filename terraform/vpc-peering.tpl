@@ -5,7 +5,7 @@ resource "aws_vpc_peering_connection" "rosa-rds-connection" {
 }
 
 resource "aws_route_table" "rds-vpc-route-table" {
-  vpc_id = "$ROSA_VPC_ID"
+  vpc_id = "$DB_VPC_ID"
 
   route {
     cidr_block                = "$ROSA_VPC_CIDR"
