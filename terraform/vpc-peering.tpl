@@ -1,9 +1,6 @@
 terraform {
-  backend "s3" {
-    bucket = "sandbox1580-terraform-state"
-    region = "us-east-1"
-    key = "terraform.tfstate"
-    encrypt = true
+  backend "local" {
+    path = "${REMOTE_STATE_DIR}/terraform.tfstate"
   }
 }
 
