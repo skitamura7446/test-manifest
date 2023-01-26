@@ -4,18 +4,6 @@ terraform {
   }
 }
 
-locals {
-  rosa_route_table = [
-    "$ROSA_ROUTE_TABLE_1_ID",
-    "$ROSA_ROUTE_TABLE_2_ID",
-    "$ROSA_ROUTE_TABLE_3_ID",
-  ]
-  db_route_table = [
-    "$DB_ROUTE_TABLE_1_ID",
-    "$DB_ROUTE_TABLE_2_ID",
-  ]
-}
-
 provider "aws" {
   alias  = "rosa"
   region = "$ROSA_REGION"
@@ -44,7 +32,7 @@ resource "aws_vpc_peering_connection_accepter" "peer" {
 }
 
 data "aws_route_tables" "rosa_rts" {
-  provider                  = aws.rosa
+  provider                = aws.rosa
   vpc_id = "$ROSA_VPC_ID"
 
   filter {
@@ -54,7 +42,7 @@ data "aws_route_tables" "rosa_rts" {
 }
 
 data "aws_route_tables" "db_rts" {
-  provider                  = aws.db
+  provider       = aws.db
   vpc_id = "$DB_VPC_ID"
 
   filter {
@@ -64,6 +52,7 @@ data "aws_route_tables" "db_rts" {
 }
 
 resource "aws_route" "rosa_route" {
+  provider                = aws.rosa
   count                     = length(data.aws_route_tables.rosa_rts.ids)
   route_table_id            = tolist(data.aws_route_tables.rosa_rts.ids)[count.index]
   destination_cidr_block    = "$DB_VPC_CIDR"
@@ -71,6 +60,7 @@ resource "aws_route" "rosa_route" {
 }
 
 resource "aws_route" "db_route" {
+  provider       = aws.db
   count                     = length(data.aws_route_tables.db_rts.ids)
   route_table_id            = tolist(data.aws_route_tables.db_rts.ids)[count.index]
   destination_cidr_block    = "$ROSA_VPC_CIDR"
