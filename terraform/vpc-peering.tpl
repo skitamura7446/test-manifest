@@ -45,7 +45,7 @@ resource "aws_route" "rosa_route" {
   provider                  = aws.rosa
   for_each                  = data.aws_route_table.rosa_route_table
   route_table_id            = each.value.id
-  cidr_block                = "$DB_VPC_CIDR"
+  destination_cidr_block    = "$DB_VPC_CIDR"
   vpc_peering_connection_id = aws_vpc_peering_connection.rosa-db-connection.id
 }
 
@@ -53,7 +53,7 @@ resource "aws_route" "db_route" {
   provider                  = aws.db
   for_each                  = data.aws_route_table.db_route_table
   route_table_id            = each.value.id
-  cidr_block                = "$ROSA_VPC_CIDR"
+  destination_cidr_block    = "$ROSA_VPC_CIDR"
   vpc_peering_connection_id = aws_vpc_peering_connection.rosa-db-connection.id
 }
 
