@@ -32,8 +32,8 @@ resource "aws_vpc_peering_connection_accepter" "peer" {
 }
 
 data "aws_route_tables" "rosa_rts" {
-  provider                = aws.rosa
-  vpc_id = "$ROSA_VPC_ID"
+  provider = aws.rosa
+  vpc_id   = "$ROSA_VPC_ID"
 
   filter {
     name   = "tag:Name"
@@ -42,8 +42,8 @@ data "aws_route_tables" "rosa_rts" {
 }
 
 data "aws_route_tables" "db_rts" {
-  provider       = aws.db
-  vpc_id = "$DB_VPC_ID"
+  provider = aws.db
+  vpc_id   = "$DB_VPC_ID"
 
   filter {
     name   = "tag:Name"
@@ -52,7 +52,7 @@ data "aws_route_tables" "db_rts" {
 }
 
 resource "aws_route" "rosa_route" {
-  provider                = aws.rosa
+  provider                  = aws.rosa
   count                     = length(data.aws_route_tables.rosa_rts.ids)
   route_table_id            = tolist(data.aws_route_tables.rosa_rts.ids)[count.index]
   destination_cidr_block    = "$DB_VPC_CIDR"
@@ -60,7 +60,7 @@ resource "aws_route" "rosa_route" {
 }
 
 resource "aws_route" "db_route" {
-  provider       = aws.db
+  provider                  = aws.db
   count                     = length(data.aws_route_tables.db_rts.ids)
   route_table_id            = tolist(data.aws_route_tables.db_rts.ids)[count.index]
   destination_cidr_block    = "$ROSA_VPC_CIDR"
