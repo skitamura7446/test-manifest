@@ -12,7 +12,7 @@ resource "aws_route_table" "rds-vpc-route-table" {
     vpc_peering_connection_id = "${aws_vpc_peering_connection.rosa-db-connection.id}"
   }
 
-  tags {
+  tags = {
     Name = "rds-vpc-route-table"
   }
 }
@@ -26,7 +26,7 @@ resource "aws_route_table" "rosa-vpc-route-table" {
     vpc_peering_connection_id = "${aws_vpc_peering_connection.rosa-db-connection.id}"
   }
 
-  tags {
+  tags = {
     Name = "rosa-vpc-route-table"
   }
 }
